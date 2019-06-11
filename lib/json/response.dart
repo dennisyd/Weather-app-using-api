@@ -36,7 +36,9 @@ class City extends Object {
   final String name;
   final Coord coord;
   final Main main;
+  @JsonKey(nullable: true)
   final Wind wind;
+  @JsonKey(nullable: true)
   final Rain rain;
   final Clouds clouds;
   final List<Weather> weather;
@@ -72,12 +74,12 @@ class Coord extends Object {
 
 @JsonSerializable()
 class Main extends Object {
-  final double temp;
-  final int pressure, humidity;
+  final double temp, pressure;
+  final int humidity;
   @JsonKey(name: "temp_max")
-  final int tempMax;
+  final double tempMax;
   @JsonKey(name: "temp_min")
-  final int tempMin;
+  final double tempMin;
 
   Main({
     this.temp,
@@ -93,8 +95,10 @@ class Main extends Object {
 
 @JsonSerializable()
 class Wind extends Object {
-  final double speed, gust;
-  final int deg;
+  final double speed, deg;
+
+  @JsonKey(nullable: true)
+  final double gust;
 
   Wind({
     this.speed,
