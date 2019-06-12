@@ -8,11 +8,11 @@
 
 import 'package:weather_app/json/response.dart';
 
-class Weather {
+class WeatherModel {
   final String city, description;
   final double temperature, rain, lat, long;
 
-  Weather(
+  WeatherModel(
       {this.city,
       this.description,
       this.temperature,
@@ -20,7 +20,7 @@ class Weather {
       this.lat,
       this.long});
 
-  Weather.fromResponse(City response)
+  WeatherModel.fromResponse(City response)
       : city = response.name,
         temperature = response.main.temp,
         description = response.weather[0].description,
