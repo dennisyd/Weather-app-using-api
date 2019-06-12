@@ -21,17 +21,22 @@ import 'package:geolocator/geolocator.dart';
 // WeatherRepository (Class) - Weather Repository
 //-------------------------------------------------------------------
 class WeatherRepository {
+  // class variables
   final http.Client client;
   int cnt = 50;
 
+  // constructor
   WeatherRepository({
     this.client,
   });
 
+  /// Updates city count for API request.
   void addCities(int count) {
     cnt = count;
   }
 
+  /// Makes a request to OpenWeatherApi for weather information surrounding
+  /// given [position]. Returns a Future<List<WeatherModel>>.
   Future<List<WeatherModel>> updateWeather(Position position) async {
     String url;
     if (position != null) {
@@ -52,12 +57,14 @@ class WeatherRepository {
     return req;
   }
 
+  /// Gets last known position using Geolocator plugin. Returns a Future<Position>.
   Future<Position> updateLocation() {
     // will return null if no location last
     return Geolocator()
         .getLastKnownPosition(desiredAccuracy: LocationAccuracy.high);
   }
 
+  /// Gets the status of Location Permissions for the Geolocator plugin. Returns a Future<bool>.
   Future<bool> getGps() async {
     final GeolocationStatus geolocationStatus =
         await Geolocator().checkGeolocationPermissionStatus();
