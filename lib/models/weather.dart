@@ -16,24 +16,24 @@ import 'package:weather_app/json/response.dart';
 //-------------------------------------------------------------------
 class WeatherModel {
   // class variables
-  final String city, description;
-  final double temperature, rain, lat, long;
+  final String city, description, icon;
+  final double temperature, lat, long;
 
   // constructor
   WeatherModel(
       {this.city,
       this.description,
       this.temperature,
-      this.rain,
+      this.icon,
       this.lat,
       this.long});
 
   /// Creates a new WeatherModel from a City [response].
   WeatherModel.fromResponse(City response)
       : city = response.name,
-        temperature = response.main.temp,
-        description = response.weather[0].description,
-        rain = response.rain.threeHour,
+        temperature = (response.main.temp * (9 / 5)) - 459.67,
+        description = response.weather[0]?.description,
+        icon = response.weather[0]?.icon,
         lat = response.coord.lat,
-        long = response.coord.long;
+        long = response.coord.lon;
 }

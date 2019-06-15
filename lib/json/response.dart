@@ -61,11 +61,11 @@ class City extends Object {
 
 @JsonSerializable()
 class Coord extends Object {
-  final double lat, long;
+  final double lat, lon;
 
   Coord({
     this.lat,
-    this.long,
+    this.lon,
   });
 
   factory Coord.fromJson(Map<String, dynamic> json) => _$CoordFromJson(json);

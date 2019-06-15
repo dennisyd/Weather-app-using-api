@@ -66,11 +66,11 @@ Map<String, dynamic> _$CityToJson(City instance) => <String, dynamic>{
 Coord _$CoordFromJson(Map<String, dynamic> json) {
   return Coord(
       lat: (json['lat'] as num)?.toDouble(),
-      long: (json['long'] as num)?.toDouble());
+      lon: (json['lon'] as num)?.toDouble());
 }
 
 Map<String, dynamic> _$CoordToJson(Coord instance) =>
-    <String, dynamic>{'lat': instance.lat, 'long': instance.long};
+    <String, dynamic>{'lat': instance.lat, 'lon': instance.lon};
 
 Main _$MainFromJson(Map<String, dynamic> json) {
   return Main(

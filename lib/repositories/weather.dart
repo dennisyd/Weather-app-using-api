@@ -14,7 +14,7 @@ import 'dart:convert';
 import 'package:weather_app/json/response.dart';
 import 'package:weather_app/models/weather.dart';
 import 'package:http/http.dart' as http;
-import 'package:weather_app/api_key.dart' show API_KEY;
+import 'package:weather_app/api_key.dart';
 import 'package:geolocator/geolocator.dart';
 
 //-------------------------------------------------------------------
@@ -46,29 +46,31 @@ class WeatherRepository {
       url =
           "http://api.openweathermap.org/data/2.5/find?lat=55.5&lon=37.5&cnt=$cnt&appid=$API_KEY";
     }
-
+    print(url);
     final response = await client.get(url);
 
-    List<WeatherModel> req = BaseResponse.fromJson(json.decode(response.body))
-        .cities
-        .map((city) => WeatherModel.fromResponse(city))
-        .toList();
+    List<WeatherModel> req =
+        BaseResponse.fromJson(json.decode(response.body))
+            .cities
+            .map((city) => WeatherModel.fromResponse(city))
+            .toList();
 
     return req;
   }
 
-  /// Gets last known position using Geolocator plugin. Returns a Future<Position>.
+  /// Gets current position using Geolocator plugin. Returns a Future<Position>.
   Future<Position> updateLocation() {
     // will return null if no location last
     return Geolocator()
-        .getLastKnownPosition(desiredAccuracy: LocationAccuracy.high);
+        .getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
   }
 
   /// Gets the status of Location Permissions for the Geolocator plugin. Returns a Future<bool>.
   Future<bool> getGps() async {
+    print("getting gps");
     final GeolocationStatus geolocationStatus =
         await Geolocator().checkGeolocationPermissionStatus();
-    if (geolocationStatus == GeolocationStatus.granted) return true;
-    return false;
+    if (geolocationStatus == GeolocationStatus.disabled) return false;
+    return true;
   }
 }

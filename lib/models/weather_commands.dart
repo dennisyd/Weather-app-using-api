@@ -20,42 +20,49 @@ import 'package:weather_app/repositories/weather.dart';
 class WeatherCommands {
   // class variables
   final WeatherRepository repo;
-  final RxCommand<Null, Position> updateLocationCommand;
+  final RxCommand<void, Position> updateLocationCommand;
   final RxCommand<Position, List<WeatherModel>> updateWeatherCommand;
-  final RxCommand<Null, bool> getGpsCommand;
+  final RxCommand<void, bool> getGpsCommand;
   final RxCommand<bool, bool> radioCheckedCommand;
+  final RxCommand<int, void> addCitiesCommand;
 
   // anonymous constructor (factory constructor will call to initialize
   // observable)
   WeatherCommands._(
-    this.repo,
-    this.updateLocationCommand,
-    this.updateWeatherCommand,
-    this.getGpsCommand,
-    this.radioCheckedCommand,
-  );
+      this.repo,
+      this.updateLocationCommand,
+      this.updateWeatherCommand,
+      this.getGpsCommand,
+      this.radioCheckedCommand,
+      this.addCitiesCommand);
 
   // factory constructor
   factory WeatherCommands(WeatherRepository repo) {
-    final _getGpsCommand = RxCommand.createAsyncNoParam<bool>(repo.getGps);
-    final _radioCheckedCommand = RxCommand.createSync<bool, bool>((b) => b);
-    final _updateLocationCommand = RxCommand.createAsyncNoParam<Position>(
-        repo.updateLocation,
-        canExecute: _getGpsCommand);
+    final _getGpsCommand =
+        RxCommand.createAsyncNoParam<bool>(repo.getGps);
+    final _radioCheckedCommand =
+        RxCommand.createSync<bool, bool>((b) => b);
+    final _updateLocationCommand =
+        RxCommand.createAsyncNoParam<Position>(repo.updateLocation,
+            canExecute: _getGpsCommand);
     final _updateWeatherCommand =
-        RxCommand.createAsync<Position, List<WeatherModel>>(repo.updateWeather,
+        RxCommand.createAsync<Position, List<WeatherModel>>(
+            repo.updateWeather,
             canExecute: _radioCheckedCommand);
+    final _addCitiesCommand =
+        RxCommand.createSync<int, void>(repo.addCities);
 
-    _updateLocationCommand.listen((data) => _updateWeatherCommand(data));
+    _updateLocationCommand
+        .listen((data) => _updateWeatherCommand(data));
 
     _updateWeatherCommand(null);
 
     return WeatherCommands._(
-      repo,
-      _updateLocationCommand,
-      _updateWeatherCommand,
-      _getGpsCommand,
-      _radioCheckedCommand,
-    );
+        repo,
+        _updateLocationCommand,
+        _updateWeatherCommand,
+        _getGpsCommand,
+        _radioCheckedCommand,
+        _addCitiesCommand);
   }
 }
