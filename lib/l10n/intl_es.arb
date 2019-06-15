@@ -1,0 +1,15 @@
+{
+  "@@last_modified": "2019-06-14T21:18:36.113251",
+  "title": "Aplicación del clima",
+  "@title": {
+    "description": "The text on the weather button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "buttonText": "Obtener el clima",
+  "@buttonText": {
+    "description": "The text on the weather button",
+    "type": "text",
+    "placeholders": {}
+  }
+}

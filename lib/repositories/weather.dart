@@ -24,6 +24,7 @@ class WeatherRepository {
   // class variables
   final http.Client client;
   int cnt = 50;
+  String lang = 'en';
 
   // constructor
   WeatherRepository({
@@ -35,16 +36,20 @@ class WeatherRepository {
     cnt = count;
   }
 
+  void setLanguage(String code) {
+    lang = code;
+  }
+
   /// Makes a request to OpenWeatherApi for weather information surrounding
   /// given [position]. Returns a Future<List<WeatherModel>>.
   Future<List<WeatherModel>> updateWeather(Position position) async {
     String url;
     if (position != null) {
       url =
-          "http://api.openweathermap.org/data/2.5/find?lat=${position.latitude.toString()}&lon=${position.longitude.toString()}&cnt=$cnt&appid=$API_KEY";
+          "http://api.openweathermap.org/data/2.5/find?lat=${position.latitude.toString()}&lon=${position.longitude.toString()}&cnt=$cnt&appid=$API_KEY&lang=$lang";
     } else {
       url =
-          "http://api.openweathermap.org/data/2.5/find?lat=55.5&lon=37.5&cnt=$cnt&appid=$API_KEY";
+          "http://api.openweathermap.org/data/2.5/find?lat=55.5&lon=37.5&cnt=$cnt&appid=$API_KEY&lang=$lang";
     }
     print(url);
     final response = await client.get(url);

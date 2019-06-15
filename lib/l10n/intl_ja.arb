@@ -1,0 +1,15 @@
+{
+  "@@last_modified": "2019-06-14T21:18:36.113251",
+  "title": "天気アプリケーション",
+  "@title": {
+    "description": "The text on the weather button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "buttonText": "天気予報を見る",
+  "@buttonText": {
+    "description": "The text on the weather button",
+    "type": "text",
+    "placeholders": {}
+  }
+}

@@ -25,16 +25,19 @@ class WeatherCommands {
   final RxCommand<void, bool> getGpsCommand;
   final RxCommand<bool, bool> radioCheckedCommand;
   final RxCommand<int, void> addCitiesCommand;
+  final RxCommand<String, void> changeLocaleCommand;
 
   // anonymous constructor (factory constructor will call to initialize
   // observable)
   WeatherCommands._(
-      this.repo,
-      this.updateLocationCommand,
-      this.updateWeatherCommand,
-      this.getGpsCommand,
-      this.radioCheckedCommand,
-      this.addCitiesCommand);
+    this.repo,
+    this.updateLocationCommand,
+    this.updateWeatherCommand,
+    this.getGpsCommand,
+    this.radioCheckedCommand,
+    this.addCitiesCommand,
+    this.changeLocaleCommand,
+  );
 
   // factory constructor
   factory WeatherCommands(WeatherRepository repo) {
@@ -42,6 +45,8 @@ class WeatherCommands {
         RxCommand.createAsyncNoParam<bool>(repo.getGps);
     final _radioCheckedCommand =
         RxCommand.createSync<bool, bool>((b) => b);
+    final _changeLocaleCommand =
+        RxCommand.createSync<String, void>(repo.setLanguage);
     final _updateLocationCommand =
         RxCommand.createAsyncNoParam<Position>(repo.updateLocation,
             canExecute: _getGpsCommand);
@@ -58,11 +63,13 @@ class WeatherCommands {
     _updateWeatherCommand(null);
 
     return WeatherCommands._(
-        repo,
-        _updateLocationCommand,
-        _updateWeatherCommand,
-        _getGpsCommand,
-        _radioCheckedCommand,
-        _addCitiesCommand);
+      repo,
+      _updateLocationCommand,
+      _updateWeatherCommand,
+      _getGpsCommand,
+      _radioCheckedCommand,
+      _addCitiesCommand,
+      _changeLocaleCommand,
+    );
   }
 }

@@ -1,0 +1,15 @@
+{
+  "@@last_modified": "2019-06-14T21:18:36.113251",
+  "title": "Weather Application",
+  "@title": {
+    "description": "The text on the weather button",
+    "type": "text",
+    "placeholders": {}
+  },
+  "buttonText": "Get the Weather",
+  "@buttonText": {
+    "description": "The text on the weather button",
+    "type": "text",
+    "placeholders": {}
+  }
+}

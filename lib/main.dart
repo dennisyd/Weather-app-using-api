@@ -19,6 +19,8 @@ import 'package:weather_app/models/weather_provider.dart';
 import 'package:weather_app/repositories/weather.dart';
 import 'package:http/http.dart' as http;
 import 'package:rx_widgets/rx_widgets.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:weather_app/locale/locales.dart';
 
 // main function
 void main() {
@@ -39,7 +41,18 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Weather App",
+      localizationsDelegates: [
+        AppLocalizationsDelegate(),
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: [
+        Locale('en', ''),
+        Locale('es', ''),
+        Locale('ja', ''),
+      ],
+      onGenerateTitle: (BuildContext context) =>
+          AppLocalizations.of(context).title,
       theme: ThemeData.dark(),
       home: HomeView(),
     );
@@ -60,9 +73,21 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
+    Locale myLocale = Localizations.localeOf(context);
+    WeatherProvider.of(context)
+        .changeLocaleCommand
+        .call(myLocale.languageCode.toString());
+    WeatherProvider.of(context).getGpsCommand.call();
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Weather App"),
+        title: Text(
+          AppLocalizations.of(context).title,
+          style: TextStyle(
+            fontSize:
+                myLocale.languageCode.contains('en') ? 20.0 : 15.0,
+          ),
+        ),
         actions: <Widget>[
           Container(
             child: Center(
@@ -143,7 +168,8 @@ class _HomeViewState extends State<HomeView> {
                     onTrue: MaterialButton(
                       elevation: 5.0,
                       color: Colors.blueGrey,
-                      child: Text("Get the Weather"),
+                      child: Text(
+                          AppLocalizations.of(context).buttonText),
                       onPressed: WeatherProvider.of(context)
                           .updateLocationCommand
                           .execute,
